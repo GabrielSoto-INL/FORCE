@@ -1,28 +1,28 @@
 <HERON>
   <!-- We used 6 hour storage media cost per unit energy reference for TES -->
-  <Case name="Ref_NoStor_customARIMA">
+  <Case name="Ref_NoStor">
     <label name="state">NY</label>
     <label name="price_struct">Reference</label>
     <label name="strategy">No_Storage</label>
     <mode>opt</mode>
     <!-- <debug>
-          <inner_samples>1</inner_samples>
-          <macro_steps>1</macro_steps>
+          <inner_samples>2</inner_samples>
+          <macro_steps>2</macro_steps>
           <dispatch_plot>True</dispatch_plot>
-    </debug> -->
+          </debug> -->
     <num_arma_samples>10</num_arma_samples>
+    <time_discretization>
+      <year_variable>YEAR</year_variable>
+      <time_variable>HOUR</time_variable>
+      <end_time>23</end_time>
+      <num_steps>24</num_steps>
+    </time_discretization>
     <parallel>
       <runinfo>
         <expectedTime>168:0:0</expectedTime>
         <clusterParameters>-P ne_gen -j oe</clusterParameters>
       </runinfo>
     </parallel>
-    <time_discretization>
-      <year_variable>YEAR</year_variable>
-      <time_variable>HOUR</time_variable>
-      <end_time>8758</end_time>
-      <num_steps>8759</num_steps>
-    </time_discretization>
     <economics>
       <ProjectTime>20</ProjectTime>
       <DiscountRate>0.08</DiscountRate>
@@ -261,7 +261,7 @@
   </Components>
 
   <DataGenerators>
-    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load__customARIMA/Output/arma_42.pk</ARMA>
+    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load/Output/arma.pk</ARMA>
     <Function name="functions">../functions.py</Function>
   </DataGenerators>
 </HERON>

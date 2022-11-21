@@ -29,6 +29,7 @@
         <location>../dispatchers/dereg.py</location>
       </custom>
     </dispatcher>
+    <verbosity>debug</verbosity>
   </Case>
 
   <Components>
