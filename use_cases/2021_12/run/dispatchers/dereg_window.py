@@ -78,6 +78,18 @@ CASE_DICT = {('Reference', 'No_Storage'): {'coeffs': (12.791, 0.025),
 
 
 def dispatch(info, activity_matrix):
+  """
+  Dispatches the components based on user-defined algorithms.
+  The expected return object is a dict of components, mapped to a dict of
+    resources that component uses, mapped to the amount consumed/produced
+    as a numpy array.
+  Note:
+    - Negative values mean the component consumes that resource
+    - Positive values mean the component produces that resource
+    - The activity doesn't necessarily have to be as long as "time", but it usually should be
+  @ In, info, dict, information about the state of the system
+  @ Out, activity, dict, activity of components as described above
+  """
   time = getattr(activity_matrix, "_times")
   heron = info['HERON']
   case = info['HERON']['Case']
@@ -137,37 +149,20 @@ def dispatch(info, activity_matrix):
     start_index = end_index
   return activity_matrix
 
-
-
-    # activity_matrix.set_activity_vector(components['Additional_NPP'], 'heat', np.ones(len(m.T)) * add_npp)
-    # npp_unused_heat = np.array(list(m.NPP_unused[t].value for t in m.T))
-    # activity_matrix.set_activity_vector(components['NPP_unused'], 'heat', npp_unused_heat)
-    # turbine_elec = np.array(list(m.Turbine[t].value for t in m.T))
-    # activity_matrix.set_activity_vector(components['turbine'], 'electricity', turbine_elec)
-    # activity_matrix.set_activity_vector(components['turbine'], 'heat', -turbine_elec / ECONV_RATE)
-
-    # # We flip the sign because grid_sales should be all positive and grid is consuming.
-    # grid_sales += turbine_elec # (npp_unused_heat / ECONV_RATE)
-    # activity_matrix.set_activity_vector(components['grid'], 'electricity', -grid_sales)
-
-    # return activity_matrix
-
-
-
 def dispatch_window(specific_time, start_index,
                     case, components, sources, resources,
                     initial_levels, info):
     """
-    Dispatches the components based on user-defined algorithms.
-    The expected return object is a dict of components, mapped to a dict of
-      resources that component uses, mapped to the amount consumed/produced
-      as a numpy array.
-    Note:
-     - Negative values mean the component consumes that resource
-     - Positive values mean the component produces that resource
-     - The activity doesn't necessarily have to be as long as "time", but it usually should be
-    @ In, info, dict, information about the state of the system
-    @ Out, activity, dict, activity of components as described above
+      Dispatches one part of a rolling window.
+      @ In, time, np.array, value of time to evaluate
+      @ In, time_offset, int, offset of the time index in the greater history
+      @ In, case, HERON Case, Case that this dispatch is part of
+      @ In, components, list, HERON components available to the dispatch
+      @ In, sources, list, HERON source (placeholders) for signals
+      @ In, resources, list, sorted list of all resources in problem
+      @ In, initial_storage, dict, initial storage levels if any
+      @ In, meta, dict, additional variables passed through
+      @ Out, result, dict, results of window dispatch
     """
     result = {}
     heron = info['HERON']
