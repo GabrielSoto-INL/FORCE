@@ -1,6 +1,6 @@
 <HERON>
   <!-- We used 6 hour storage media cost per unit energy reference for TES -->
-  <Case name="Ref_NoStor_customARIMA">
+  <Case name="default_customARIMA">
     <label name="state">NY</label>
     <label name="price_struct">Reference</label>
     <label name="strategy">No_Storage</label>
@@ -15,6 +15,7 @@
       <runinfo>
         <expectedTime>168:0:0</expectedTime>
         <clusterParameters>-P ne_gen -j oe</clusterParameters>
+        <memory>8gb</memory>
       </runinfo>
     </parallel>
     <time_discretization>
@@ -32,10 +33,10 @@
     </economics>
     <dispatcher>
       <custom>
-        <location>../dispatchers/dereg.py</location>
+        <location>../dispatchers/dereg_no_print.py</location>
       </custom>
     </dispatcher>
-    <verbosity>debug</verbosity>
+    <verbosity>silent</verbosity>
   </Case>
 
   <Components>
@@ -261,7 +262,7 @@
   </Components>
 
   <DataGenerators>
-    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load__customARIMA/Output/arma_42.pk</ARMA>
+    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load__customARIMA/Output/arma_412.pk</ARMA>
     <Function name="functions">../functions.py</Function>
   </DataGenerators>
 </HERON>

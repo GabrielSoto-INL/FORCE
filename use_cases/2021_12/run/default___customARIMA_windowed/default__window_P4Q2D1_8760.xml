@@ -1,6 +1,6 @@
 <HERON>
   <!-- We used 6 hour storage media cost per unit energy reference for TES -->
-  <Case name="Ref_NoStor_customARIMA_test_o">
+  <Case name="default_windowed_customARIMA">
     <label name="state">NY</label>
     <label name="price_struct">Reference</label>
     <label name="strategy">No_Storage</label>
@@ -37,7 +37,7 @@
         <location>../dispatchers/dereg_window.py</location>
       </custom>
     </dispatcher>
-    <verbosity>debug</verbosity>
+    <verbosity>silent</verbosity>
   </Case>
 
   <Components>
@@ -263,7 +263,7 @@
   </Components>
 
   <DataGenerators>
-    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load__customARIMA/Output/arma_402.pk</ARMA>
+    <ARMA name="Load" variable="TOTALLOAD,WIND,SOLAR" evalMode="clustered">../../train/ny_default_load__customARIMA/Output/arma_412.pk</ARMA>
     <Function name="functions">../functions.py</Function>
   </DataGenerators>
 </HERON>
