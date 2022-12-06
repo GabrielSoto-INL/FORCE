@@ -37,7 +37,7 @@
         <location>../dispatchers/dereg_window.py</location>
       </custom>
     </dispatcher>
-    <verbosity>silent</verbosity>
+    <verbosity>debug</verbosity>
   </Case>
 
   <Components>

@@ -121,7 +121,8 @@ def dispatch(info, activity_matrix):
         if start_index == 0:
           initial_levels[comp] = comp.get_interaction().get_initial_level(info)
         else:
-          initial_levels[comp] = subdisp[comp.name]['level'][comp.get_interaction().get_resource()][-1]
+          init_lvl = subdisp[comp.name]['level'][comp.get_interaction().get_resource()][-1]
+          initial_levels[comp] = init_lvl if init_lvl>=0 else 0
     # allow for converging solution iteratively
     converged = False
     conv_counter = 0
